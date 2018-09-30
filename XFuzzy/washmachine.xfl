@@ -1,0 +1,39 @@
+operatorset Operator {
+   and xfl.min();
+}
+
+type Type_Of_Dirty [0.0,100.0;256] {
+  NoGreasy xfl.triangle(-50.0,0.0,50.0);
+  Medium xfl.triangle(0.0,50.0,100.0);
+  Greasy xfl.triangle(50.0,100.0,150.0);
+}
+
+type Dirtness [0.0,100.0;256] {
+  Small xfl.triangle(-50.0,0.0,50.0);
+  Medium xfl.triangle(0.0,50.0,100.0);
+  Large xfl.triangle(50.0,100.0,150.0);
+}
+
+type Wash_Time [0.0,60.0;256] {
+  VeryShort xfl.triangle(0.0,8.0,12.0);
+  Short xfl.triangle(8.0,12.0,20.0);
+  Medium xfl.triangle(12.0,20.0,35.0);
+  Long xfl.triangle(30.0,40.0,60.0);
+  VeryLong xfl.triangle(45.0,60.0,75.0);
+}
+
+rulebase RuleBases (Type_Of_Dirty x, Dirtness y : Wash_Time z) using Operator {
+  if(x == NoGreasy & y == Small) -> z = VeryShort;
+  if(x == NoGreasy & y == Medium) -> z = Short;
+  if(x == NoGreasy & y == Large) -> z = Medium;
+  if(x == Medium & y == Small) -> z = Medium;
+  if(x == Medium & y == Medium) -> z = Medium;
+  if(x == Medium & y == Large) -> z = Long;
+  if(x == Greasy & y == Small) -> z = Long;
+  if(x == Greasy & y == Medium) -> z = Long;
+  if(x == Greasy & y == Large) -> z = VeryLong;
+}
+
+system (Type_Of_Dirty x, Dirtness y : Wash_Time z) {
+  RuleBases(x, y : z);
+ }

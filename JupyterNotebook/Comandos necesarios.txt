@@ -1,0 +1,4 @@
+Comandos:
+   pip install matplotlib
+   pip install -U scikit-fuzzy
+   conda install shapely
